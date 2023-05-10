@@ -1,0 +1,40 @@
+.Navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 20vw;
+    background: var(--default-BG-Bright);
+    padding: 0;
+    z-index: 1;
+}
+
+.Navbar h1 {
+    color: var(--default-Color);
+    font-size: 8vh;
+    margin: 0;
+}
+
+.Navbar ul li button {
+    width: 90%;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 4vh;
+    text-align: left;
+    margin: 0px 0px 2em 0px;
+    color: var(--default-Color);
+}
+
+.Navbar ul li button:hover {
+    scale: 1.1;
+}
+
+.Navbar ul li {
+    text-align: left;
+}
+
+.Navbar ul {
+    list-style-type: none;
+    margin: 1em;
+}

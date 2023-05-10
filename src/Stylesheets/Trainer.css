@@ -1,0 +1,89 @@
+.vocabContainer h1 {
+    font-size: 15vh;
+    margin: 0;
+}
+
+.vocabContainer div {
+    text-align: center;
+}
+
+.vocabContainer {
+    height: 100%;
+    width: 100%;
+}
+
+.vocabContainer input[type='text'] {
+    width: 80%;
+    height: 12vh;
+    font-size: 8vh;
+    border: none;
+    outline: none;
+    background: var(--default-Color-Darker);
+    border-radius: 50px;
+    color: var(--default-Color);
+    margin: 8rem;
+}
+
+.vocabContainer button {
+    width: 10%;
+    height: 12vh;
+    border-radius: 0px 50px 50px 0px;
+    border: none;
+    outline: none;
+    background: var(--default-Color-Darker);
+}
+
+.statistics h1 {
+    background: var(--default-Color);
+    font-size: 8vh;
+    height: 10vh;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: var(--default-BG);
+}
+
+.conclusion {
+    height: 90%;
+    width: 90%;
+    background: var(--default-Color-Dark);
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, 100%);
+    animation: slideIn 2s ease forwards;
+    box-shadow: 0px 0px 150px #000;
+    border-radius: 50px;
+}
+
+.conclusion h1 {
+    color: var(--default-Color);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate(50%, 100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(50%, -50%);
+        opacity: 1;
+    }
+}
+
+.retryButton {
+    width: 90%;
+    height: 20%;
+    margin: 3rem;
+    border-radius: 50px;
+    background: var(--default-Color-Darker);
+    color: var(--default-BG);
+    font-size: 6vh;
+    border: none;
+}
+
+.retryButton:hover {
+    scale: 0.9;
+}
