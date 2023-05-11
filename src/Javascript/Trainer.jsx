@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import Vocabset from './Vocabset';
 
 export default function Trainer() {
-    const [vocabArray, setVocabArray] = useState([]);
-    const [usedIndices, setUsedIndices] = useState([]);
+    const [vocabArray, setVocabArray] = useState([
+        { ger: 'Ja', fra: 'Oui' },
+        { ger: 'Nein', fra: 'Non' },
+        { ger: 'Satz', fra: 'Phrase' },
+        { ger: 'Wort', fra: 'Mot' },
+        { ger: 'Warum', fra: 'Pourquoi' }
+    ]);
+    const [usedIndices, setUsedIndices] = useState([]),
+        [conclusion, setConclusion] = useState(false),
+        [inputVocab, setInputVocab] = useState(''),
+        [feedbackType, setFeedbackType] = useState(''),
+        [messageType, setMessageType] = useState(''),
+        [currentLanguage, setCurrentLanguage] = useState('ger');
 
-    const [inputVocab, setInputVocab] = useState('');
-    const [feedbackType, setFeedbackType] = useState('');
-    const [messageType, setMessageType] = useState('');
-
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [currentLanguage, setCurrentLanguage] = useState('ger');
-
-    const [conclusion, setConclusion] = useState(false)
-    let [vocabCorrect, setVocabCorrect] = useState(0);
-    let [vocabIncorrect, setVocabIncorrect] = useState(0);
+    let [vocabCorrect, setVocabCorrect] = useState(0),
+        [vocabIncorrect, setVocabIncorrect] = useState(0),
+        [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         setUsedIndices([])
         changeWord();
     }, []);
+
     const Icon = (props) => {
         const icon = props.feedbackType === 'Correct' ? 'done' : 'close';
         return (
-            <span
-                className="material-symbols-rounded"
-                style={{ color: props.color, fontSize: props.fontSize }}
-            >
+            <span className="material-symbols-rounded" style={{ color: props.color, fontSize: props.fontSize }}>
                 {icon}
             </span>
         );
@@ -36,9 +37,7 @@ export default function Trainer() {
         const currentVocab = vocabArray[currentIndex];
         const input = inputVocab.trim().toLowerCase();
         const wordToCheck =
-            currentLanguage === 'ger'
-                ? currentVocab.fra.toLowerCase()
-                : currentVocab.ger.toLowerCase();
+            currentLanguage === 'ger' ? currentVocab.fra.toLowerCase() : currentVocab.ger.toLowerCase();
 
         if (input === wordToCheck) {
             changeWord();
@@ -56,7 +55,7 @@ export default function Trainer() {
 
     function runVocabtest() {
         setVocabCorrect(0);
-        setVocabIncorrect(0); // Zurücksetzen von vocabIncorrect
+        setVocabIncorrect(0);
         setInputVocab('');
         setUsedIndices([]);
         setCurrentIndex(0);
@@ -82,13 +81,9 @@ export default function Trainer() {
         );
     };
 
-    function renderConclusion() {
-        setConclusion(true)
-    }
-
     function changeWord() {
         if (usedIndices.length === vocabArray.length) {
-            renderConclusion();
+            setConclusion(true)
             setUsedIndices([]);
             setCurrentIndex(0);
             setCurrentLanguage('ger');
@@ -103,17 +98,13 @@ export default function Trainer() {
             setUsedIndices(prevIndices => [...prevIndices, randomIndex]);
         }
     }
-
+    //enter key == evaluation
     function handleKeyDown(e) {
         if (e.keyCode === 13) {
             evaluate();
         }
     }
-
-    function syncVocabArray(newVocabArray) {
-        setVocabArray(newVocabArray);
-    }
-
+    //little text that either says 'correct' or 'incorrect'
     const FeedBackMessage = (props) => {
         return (
             <div className="feedbackContainer" style={{ textAlign: 'center' }}>
@@ -134,7 +125,7 @@ export default function Trainer() {
         );
     };
 
-    const Statistics = (props) => {
+    const Statistics = () => {
         return (
             <div className="statistics">
                 <h1>
@@ -147,34 +138,15 @@ export default function Trainer() {
 
     return (
         <>
-            {vocabArray.length > 0 ? (
-                <>
-                    <div className="vocabContainer">
-                        <h1>
-                            {currentLanguage === 'ger' ? vocabArray[currentIndex]?.ger : vocabArray[currentIndex]?.fra}
-                        </h1>
-                        <div>
-                            <input
-                                type="text"
-                                value={inputVocab}
-                                onChange={(e) => setInputVocab(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                            />
-                        </div>
-                        <FeedBackMessage
-                            type={feedbackType}
-                            fontSize="10vh"
-                            colorType={messageType}
-                            feedbackType={feedbackType}
-                        />
-                    </div>
-                    <Statistics />
-                    {conclusion && <Conclusion />}
-                </>
-            ) : (
-                <p>Loading...</p>
-            )}
+            <div className="vocabContainer">
+                <h1> {currentLanguage === 'ger' ? vocabArray[currentIndex]?.ger : vocabArray[currentIndex]?.fra} </h1>
+                <div>
+                    <input type="text" value={inputVocab} onChange={(e) => setInputVocab(e.target.value)} onKeyDown={handleKeyDown} />
+                </div>
+                <FeedBackMessage type={feedbackType} fontSize="10vh" colorType={messageType} feedbackType={feedbackType} />
+            </div>
+            <Statistics />
+            {conclusion && <Conclusion />}
         </>
     );
-
 }
