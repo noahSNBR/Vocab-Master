@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Vocabset from './Vocabset';
 
 export default function Trainer() {
-    const [vocabArray, setVocabArray] = useState([
-        { ger: 'Hallo', fra: 'Bonjour' },
-        { ger: 'Tschüss', fra: 'Au revoir' },
-        { ger: 'Ja', fra: 'Oui' },
-        { ger: 'Nein', fra: 'Non' },
-        { ger: 'Und', fra: 'Et' },
-        { ger: 'oder', fra: 'ou' }
-    ]);
+    const [vocabArray, setVocabArray] = useState([]);
     const [usedIndices, setUsedIndices] = useState([]);
 
     const [inputVocab, setInputVocab] = useState('');
@@ -61,8 +55,9 @@ export default function Trainer() {
     }
 
     function runVocabtest() {
-        setVocabCorrect(0)
-        setInputVocab(0)
+        setVocabCorrect(0);
+        setVocabIncorrect(0); // Zurücksetzen von vocabIncorrect
+        setInputVocab('');
         setUsedIndices([]);
         setCurrentIndex(0);
         setCurrentLanguage('ger');
@@ -79,7 +74,6 @@ export default function Trainer() {
             <div className='conclusion'>
                 <h1 style={conclusionStyleSet}> Your Evaluation </h1>
                 <div>
-                    <h1 style={conclusionStyleSet}> Time took: 00:00:00 </h1>
                     <h1 style={conclusionStyleSet}> Correct: {vocabCorrect}</h1>
                     <h1 style={conclusionStyleSet}> Incorrect: {vocabIncorrect}</h1>
                 </div>
@@ -96,7 +90,7 @@ export default function Trainer() {
         if (usedIndices.length === vocabArray.length) {
             renderConclusion();
             setUsedIndices([]);
-            setCurrentIndex(0); 
+            setCurrentIndex(0);
             setCurrentLanguage('ger');
             console.info('conlusion incomming')
         } else {
@@ -114,6 +108,10 @@ export default function Trainer() {
         if (e.keyCode === 13) {
             evaluate();
         }
+    }
+
+    function syncVocabArray(newVocabArray) {
+        setVocabArray(newVocabArray);
     }
 
     const FeedBackMessage = (props) => {
@@ -149,25 +147,34 @@ export default function Trainer() {
 
     return (
         <>
-            <div className="vocabContainer">
-                <h1>{currentLanguage === 'ger' ? vocabArray[currentIndex].ger : vocabArray[currentIndex].fra}</h1>
-                <div>
-                    <input
-                        type="text"
-                        value={inputVocab}
-                        onChange={(e) => setInputVocab(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    />
-                </div>
-                <FeedBackMessage
-                    type={feedbackType}
-                    fontSize="10vh"
-                    colorType={messageType}
-                    feedbackType={feedbackType}
-                />
-            </div>
-            <Statistics />
-            {conclusion && <Conclusion />}
+            {vocabArray.length > 0 ? (
+                <>
+                    <div className="vocabContainer">
+                        <h1>
+                            {currentLanguage === 'ger' ? vocabArray[currentIndex]?.ger : vocabArray[currentIndex]?.fra}
+                        </h1>
+                        <div>
+                            <input
+                                type="text"
+                                value={inputVocab}
+                                onChange={(e) => setInputVocab(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                            />
+                        </div>
+                        <FeedBackMessage
+                            type={feedbackType}
+                            fontSize="10vh"
+                            colorType={messageType}
+                            feedbackType={feedbackType}
+                        />
+                    </div>
+                    <Statistics />
+                    {conclusion && <Conclusion />}
+                </>
+            ) : (
+                <p>Loading...</p>
+            )}
         </>
     );
+
 }

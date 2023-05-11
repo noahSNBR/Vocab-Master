@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import './Stylesheets/Navbar.css';
 import './Stylesheets/Trainer.css';
+import './Stylesheets/Vocabset.css';
 import Trainer from './Javascript/Trainer';
 import Vocabset from './Javascript/Vocabset';
 import Settings from './Javascript/Settings';
@@ -9,8 +10,8 @@ import Credits from './Javascript/Credits';
 
 export default function App() {
   const [state, setState] = useState({
-    trainer: true,
-    vocab: false,
+    trainer: false,
+    vocab: true,
     settings: false,
     data: false
   });
